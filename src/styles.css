@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #0b0c0f;
+}
+html, body {
+  font-family: 'Sora', sans-serif;
+}
+app-root {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* si un container global limite la largeur */
+* {
+  box-sizing: border-box;
+}
