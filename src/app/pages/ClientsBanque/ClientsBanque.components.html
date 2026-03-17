@@ -1,0 +1,150 @@
+<div class="client-page">
+  <header class="topbar">
+    <div class="brand-mini">
+      <div class="logo">▲</div>
+      <div class="brand-text">
+        <h2>Fadjoud Bank</h2>
+        <span>Client Space</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="link active" href="#">Dashboard</a>
+      <a class="link" href="#">Accounts</a>
+      <a class="link" href="#">Cards</a>
+      <a class="link" href="#">Transfers</a>
+      <a class="link" href="#">History</a>
+    </nav>
+
+    <div class="actions">
+      <button class="btn-outline">Support</button>
+      <a class="user-btn" routerLink="/login">
+        {{ clientInitials || '?' }}
+      </a>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="left-section">
+      <div class="welcome-card">
+        <div class="welcome-text">
+          <p class="small">Welcome back</p>
+          <h1>{{ clientName || 'Client Name' }}</h1>
+          <p class="subtitle">
+            Manage your accounts, cards and recent transactions from your banking dashboard.
+          </p>
+        </div>
+
+        <div class="balance-box">
+          <p>Current Balance</p>
+          <h2>{{ balance || '--' }}</h2>
+          <span>Account overview</span>
+        </div>
+      </div>
+
+      <div class="cards-row">
+        <div class="bank-card primary-card">
+          <div class="card-top">
+            <span>Premium Card</span>
+            <span>VISA</span>
+          </div>
+
+          <div class="card-number">{{ cardNumber || '**** **** **** ****' }}</div>
+
+          <div class="card-bottom">
+            <div>
+              <p>Card Holder</p>
+              <h4>{{ clientName || 'Not available' }}</h4>
+            </div>
+
+            <div>
+              <p>Expires</p>
+              <h4>{{ expiry || '--/--' }}</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <h3>Quick Actions</h3>
+          <div class="action-grid">
+            <button>Transfer</button>
+            <button>Pay Bills</button>
+            <button>Top Up</button>
+            <button>Statements</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="transactions-card">
+        <div class="section-header">
+          <h3>Recent Transactions</h3>
+          <a href="#">See all</a>
+        </div>
+
+        <div class="transaction-list" *ngIf="transactions.length > 0; else noTransactions">
+          <div class="transaction-item" *ngFor="let transaction of transactions">
+            <div class="icon-box">{{ transaction.icon }}</div>
+
+            <div class="transaction-info">
+              <h4>{{ transaction.title }}</h4>
+              <p>{{ transaction.date }}</p>
+            </div>
+
+            <div class="amount" [ngClass]="transaction.type">
+              {{ transaction.amount }}
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noTransactions>
+          <div class="empty-state">
+            No transactions available yet.
+          </div>
+        </ng-template>
+      </div>
+    </section>
+
+    <aside class="right-section">
+      <div class="profile-card">
+        <div class="avatar">{{ clientInitials || '?' }}</div>
+        <h3>{{ clientName || 'Client Profile' }}</h3>
+        <p>Premium Client</p>
+        <button class="btn-fill">View Profile</button>
+      </div>
+
+      <div class="summary-card">
+        <h3>Account Summary</h3>
+        <div class="summary-item">
+          <span>Savings</span>
+          <strong>{{ savings || '--' }}</strong>
+        </div>
+        <div class="summary-item">
+          <span>Checking</span>
+          <strong>{{ checking || '--' }}</strong>
+        </div>
+        <div class="summary-item">
+          <span>Loans</span>
+          <strong>--</strong>
+        </div>
+      </div>
+
+      <div class="goal-card">
+        <h3>Savings Goal</h3>
+        <p>Future objective</p>
+        <div class="progress-bar">
+          <div class="progress"></div>
+        </div>
+        <span>0% completed</span>
+      </div>
+
+      <div class="news-card">
+        <h3>Bank News</h3>
+        <ul>
+          <li>Secure access to your banking space</li>
+          <li>Your future notifications will appear here</li>
+          <li>Updates from the bank will be displayed here</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+</div>

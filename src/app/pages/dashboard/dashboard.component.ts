@@ -1,11 +1,13 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
+  imports: [RouterModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+
 }
