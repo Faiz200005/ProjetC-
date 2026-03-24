@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AccountService } from '../../services/account.service';
 import { TransactionService } from '../../services/transaction.service';
-import { NotificationService } from '../../services/notification.service'; // <-- Import ajouté
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,15 +15,15 @@ import { NotificationService } from '../../services/notification.service'; // <-
 export class DashboardComponent implements OnInit {
   accounts: any[] = [];
   transactions: any[] = [];
-  notifications: any[] = []; // <-- Pour stocker les alertes
-  unreadCount: number = 0;   // <-- Compteur de pastille rouge
-  showNotifs: boolean = false; // <-- Toggle du menu
+  notifications: any[] = []; 
+  unreadCount: number = 0;   
+  showNotifs: boolean = false; 
   isLoading = true;
 
   constructor(
     private accountService: AccountService,
     private transactionService: TransactionService,
-    private notificationService: NotificationService, // <-- Injection
+    private notificationService: NotificationService, 
     private router: Router,
     private cdr: ChangeDetectorRef 
   ) {}
@@ -34,18 +34,19 @@ export class DashboardComponent implements OnInit {
 
   loadDashboardData() {
     console.log('🚀 Chargement global Fadjia Bank...');
+    this.isLoading = true;
     
     this.accountService.getAccounts().subscribe({
       next: (data) => {
         this.accounts = data;
         
         if (data && data.length > 0) {
-          // On récupère l'ID du premier compte et l'ID utilisateur
+          // On gère la casse (id ou Id) selon ce que renvoie ton API C#
           const mainAccountId = data[0].id || data[0].Id;
           const userId = data[0].userId || data[0].UserId;
 
           this.loadHistory(mainAccountId);
-          this.loadNotifications(userId); // <-- Chargement des notifs
+          this.loadNotifications(userId); 
         }
         
         this.isLoading = false;
@@ -63,6 +64,7 @@ export class DashboardComponent implements OnInit {
   loadHistory(accountId: string) {
     this.transactionService.getHistory(accountId).subscribe({
       next: (res) => {
+        // On prend les 5 dernières transactions pour l'affichage rapide
         this.transactions = res.slice(0, 5);
         this.cdr.detectChanges(); 
       },
@@ -70,8 +72,31 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // --- NOUVELLES MÉTHODES POUR LES NOTIFICATIONS ---
+  // --- NOUVELLE MÉTHODE : DÉPÔT D'ARGENT ---
+  showDepositPrompt() {
+    const amountStr = prompt("💰 Quel montant souhaitez-vous déposer sur Fadjia Bank ?");
+    const amount = parseFloat(amountStr || '0');
 
+    if (amount > 0 && this.accounts.length > 0) {
+      const accountId = this.accounts[0].id || this.accounts[0].Id;
+      
+      this.accountService.deposit(accountId, amount).subscribe({
+        next: (res) => {
+          alert(`✅ Dépôt réussi ! Votre nouveau solde est de ${res.newBalance}€`);
+          // CRUCIAL : On recharge tout pour voir le nouveau solde et la nouvelle transaction
+          this.loadDashboardData(); 
+        },
+        error: (err) => {
+          console.error("Erreur lors du dépôt :", err);
+          alert("❌ Impossible d'effectuer le dépôt. Vérifiez votre connexion au serveur.");
+        }
+      });
+    } else if (amount <= 0 && amountStr !== null) {
+      alert("⚠️ Le montant doit être supérieur à 0.");
+    }
+  }
+
+  // --- GESTION DES NOTIFICATIONS ---
   loadNotifications(userId: string) {
     this.notificationService.getNotifications(userId).subscribe({
       next: (notifs) => {
