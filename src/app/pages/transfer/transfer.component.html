@@ -1,0 +1,76 @@
+<div class="transfer-wrapper">
+  <div class="transfer-card">
+    <h2>Nouveau <span>Virement</span></h2>
+    <p class="subtitle">Transférez des fonds en toute sécurité.</p>
+
+    <form (ngSubmit)="onSubmit()" #transferForm="ngForm">
+      
+      <!-- Sélection du compte source -->
+      <div class="form-group">
+        <label>Depuis mon compte</label>
+        <select [(ngModel)]="transferData.fromAccountId" name="fromAccount" required>
+          <option value="" disabled>Sélectionnez un compte</option>
+          <option *ngFor="let acc of myAccounts" [value]="acc.id">
+            {{ acc.iban }} ({{ acc.balance | currency:'EUR' }})
+          </option>
+        </select>
+      </div>
+
+      <!-- Quick Select : Bénéficiaires favoris -->
+      <div class="beneficiaries-quick-select" *ngIf="beneficiaries.length > 0">
+        <label class="small-label">Bénéficiaires favoris :</label>
+        <div class="fav-list">
+          <button type="button" 
+                  *ngFor="let b of beneficiaries" 
+                  (click)="selectBeneficiary(b.iban)" 
+                  class="fav-item"
+                  title="Cliquez pour sélectionner cet IBAN">
+            👤 {{ b.name }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Saisie de l'IBAN (auto-complété si clic sur favori) -->
+      <div class="form-group">
+        <label>IBAN du destinataire</label>
+        <input type="text" 
+               [(ngModel)]="transferData.toIban" 
+               name="toIban" 
+               placeholder="FR76 XXXX XXXX XXXX" 
+               required>
+      </div>
+
+      <!-- Montant -->
+      <div class="form-group">
+        <label>Montant (€)</label>
+        <input type="number" 
+               [(ngModel)]="transferData.amount" 
+               name="amount" 
+               placeholder="0.00" 
+               required 
+               min="1">
+      </div>
+
+      <!-- Libellé -->
+      <div class="form-group">
+        <label>Libellé (Optionnel)</label>
+        <input type="text" 
+               [(ngModel)]="transferData.label" 
+               name="label" 
+               placeholder="Ex: Cadeau, Loyer...">
+      </div>
+
+      <!-- Validation -->
+      <button type="submit" class="btn-neon" [disabled]="!transferForm.form.valid">
+        Confirmer le virement
+      </button>
+
+      <!-- Feedback (Succès ou Erreur) -->
+      <p *ngIf="message" [ngClass]="{'success': !isError, 'error': isError}" class="feedback">
+        {{ message }}
+      </p>
+
+      <a routerLink="/dashboard" class="back-link">Retour au tableau de bord</a>
+    </form>
+  </div>
+</div>

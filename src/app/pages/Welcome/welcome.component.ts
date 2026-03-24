@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // Indispensable pour routerLink
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  template: `
-    <h1>OK ✅</h1>
-    <p>Connexion réussie</p>
-  `
+  imports: [CommonModule, RouterModule],
+  templateUrl: './welcome.component.html',
+  styleUrl: './welcome.component.css'
 })
-export class WelcomeComponent { }
+export class WelcomeComponent {}

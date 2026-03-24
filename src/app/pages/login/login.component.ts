@@ -16,29 +16,30 @@ export class LoginComponent {
   password = '';
   message = '';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login() {
-    this.http.get<any[]>('http://localhost:5028/api/Users').subscribe({
-      next: (users) => {
-        const user = users.find(u =>
-          u.email === this.email &&
-          u.passwordHash === this.password
-        );
+    const credentials = { Email: this.email, Password: this.password };
 
-        if (user) {
+    this.http.post<any>('http://localhost:5028/api/auth/login', credentials).subscribe({
+      next: (response) => {
+        const myToken = response.token || response.Token;
+
+        if (myToken) {
+          localStorage.setItem('bank_token', myToken);
           this.message = 'OK ✅ Connexion réussie';
-          this.router.navigate(['/Welcome']);
+          
+          // Petit délai de sécurité pour laisser le localStorage se stabiliser
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 100);
+
         } else {
-          this.message = '❌ Mauvais email ou mot de passe';
+          this.message = '⚠️ Erreur : Token absent de la réponse.';
         }
       },
       error: (err) => {
-        console.error(err);
-        this.message = '❌ Erreur API';
+        this.message = err.status === 401 ? '❌ Identifiants incorrects' : '❌ Serveur hors ligne';
       }
     });
   }

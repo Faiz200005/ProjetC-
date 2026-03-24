@@ -1,0 +1,43 @@
+<div class="management-container">
+  <div class="header-section">
+    <h1>Mes <span>Destinataires</span></h1>
+    <p>Gérez vos comptes favoris pour vos virements.</p>
+  </div>
+
+  <div class="add-card neon-border">
+    <h3>Ajouter un contact</h3>
+    <form (ngSubmit)="onAdd()" #addForm="ngForm">
+      <div class="form-row">
+        <div class="input-group">
+          <label>Nom / Pseudo</label>
+          <input type="text" [(ngModel)]="newBeneficiary.name" name="name" placeholder="Ex: Maman" required>
+        </div>
+        <div class="input-group">
+          <label>IBAN</label>
+          <input type="text" [(ngModel)]="newBeneficiary.iban" name="iban" placeholder="FR76..." required>
+        </div>
+        <button type="submit" class="btn-add" [disabled]="!addForm.valid">Ajouter</button>
+      </div>
+    </form>
+    <p *ngIf="message" [ngClass]="{'success': !isError, 'error': isError}" class="feedback">
+      {{ message }}
+    </p>
+  </div>
+
+  <div class="list-section">
+    <h3>Mes contacts enregistrés ({{ beneficiaries.length }})</h3>
+    <div class="beneficiary-grid">
+      <div class="beneficiary-card" *ngFor="let b of beneficiaries">
+        <div class="user-icon">👤</div>
+        <div class="info">
+          <h4>{{ b.name }}</h4>
+          <p>{{ b.iban }}</p>
+        </div>
+        <button class="btn-delete" (click)="onDelete(b.id)">🗑️</button>
+      </div>
+      <div *ngIf="beneficiaries.length === 0" class="empty">
+        Aucun bénéficiaire enregistré.
+      </div>
+    </div>
+  </div>
+</div>

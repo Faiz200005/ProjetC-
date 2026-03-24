@@ -1,0 +1,99 @@
+.transfer-wrapper {
+  background-color: #0a0a0a;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+.transfer-card {
+  background: #161616;
+  padding: 2.5rem;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 450px;
+  border: 1px solid #333;
+}
+
+h2 span { color: #ccff00; }
+.subtitle { color: #888; margin-bottom: 2rem; }
+
+.form-group { margin-bottom: 1.5rem; }
+label { display: block; margin-bottom: 8px; color: #aaa; font-size: 0.9rem; }
+
+input, select {
+  width: 100%;
+  background: #222;
+  border: 1px solid #444;
+  padding: 12px;
+  border-radius: 10px;
+  color: white;
+  outline: none;
+}
+
+input:focus, select:focus { border-color: #ccff00; }
+
+.btn-neon {
+  width: 100%;
+  background: #ccff00;
+  color: black;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.btn-neon:disabled { background: #444; cursor: not-allowed; }
+
+.feedback { margin-top: 1rem; text-align: center; font-weight: bold; }
+.success { color: #ccff00; }
+.error { color: #ff4444; }
+
+.back-link { display: block; text-align: center; margin-top: 1.5rem; color: #888; text-decoration: none; font-size: 0.8rem; }
+.back-link:hover { color: white; }
+.beneficiaries-section {
+  margin-bottom: 1.5rem;
+}
+
+.small-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.beneficiary-chips {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+/* Scrollbar discrète pour les chips */
+.beneficiary-chips::-webkit-scrollbar { height: 4px; }
+.beneficiary-chips::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+.chip {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 8px 15px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+
+.chip:hover {
+  border-color: #ccff00;
+  background: #222;
+}
+
+.chip-icon { font-size: 0.9rem; }
+.chip-name { font-size: 0.85rem; color: #eee; }

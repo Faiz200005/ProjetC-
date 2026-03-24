@@ -1,21 +1,71 @@
-<h2>Test Login</h2>
+<div class="welcome-container">
+  <!-- Barre de navigation -->
+  <nav class="glass-nav">
+    <div class="logo">Fadjia <span>Bank</span></div>
+    <div class="nav-actions">
+      <button class="btn-ghost" routerLink="/login">Connexion</button>
+      <button class="btn-neon" routerLink="/register">Ouvrir un compte</button>
+    </div>
+  </nav>
 
-<form (ngSubmit)="login()">
-  <input type="email"
-         placeholder="Email"
-         [(ngModel)]="email"
-         name="email" />
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-text">
+      <span class="badge">Nouveau : Virements Instantanés ⚡</span>
+      <h1>La banque qui <br><span>illumine</span> vos finances.</h1>
+      <p>Gérez vos comptes, effectuez des virements et suivez vos dépenses avec l'interface la plus rapide du marché.</p>
+      <div class="cta-group">
+        <button class="btn-neon-large" routerLink="/register">Rejoindre l'aventure</button>
+        <button class="btn-outline" routerLink="/login">Accéder à mon espace</button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <!-- Un petit visuel abstrait néon -->
+      <div class="neon-card-visual">
+        <div class="chip"></div>
+        <div class="number">**** **** **** 2026</div>
+      </div>
+    </div>
+  </header>
 
-  <br /><br />
+  <!-- Section Points Forts -->
+  <section class="features" id="services">
+    <div class="feature-card">
+      <div class="icon">🛡️</div>
+      <h3>Sécurité Max</h3>
+      <p>Double authentification et cryptage de bout en bout pour vos transactions.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💸</div>
+      <h3>Zéro Frais</h3>
+      <p>Aucun frais de tenue de compte. La transparence totale, enfin.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📱</div>
+      <h3>Multi-Comptes</h3>
+      <p>Créez des sous-comptes pour vos projets en un clic.</p>
+    </div>
+  </section>
 
-  <input type="password"
-         placeholder="Mot de passe"
-         [(ngModel)]="password"
-         name="password" />
-
-  <br /><br />
-
-  <button type="submit">Tester connexion</button>
-</form>
-
-<p>{{ message }}</p>
+  <!-- Footer avec Mentions Légales -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">Fadjia <span>Bank</span></div>
+        <p>Votre partenaire de confiance pour l'avenir.</p>
+      </div>
+      <div class="footer-legal">
+        <h4>Mentions Légales</h4>
+        <ul>
+          <li>Fadjia Bank S.A. au capital de 1 000 000 €</li>
+          <li>Siège social : Rouen, France</li>
+          <li>Agrément ACPR n°123456</li>
+          <li>Politique de confidentialité</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 Fadjia Bank. Tous droits réservés.
+    </div>
+  </footer>
+</div>

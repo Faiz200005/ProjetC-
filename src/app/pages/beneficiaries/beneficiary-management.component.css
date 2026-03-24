@@ -1,0 +1,68 @@
+.management-container { padding: 2rem; max-width: 900px; margin: 0 auto; color: white; }
+span { color: #ccff00; } /* Ton vert néon */
+
+.add-card {
+  background: #111;
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border: 1px solid #222;
+}
+
+.form-row { display: flex; gap: 1rem; align-items: flex-end; }
+.input-group { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+
+input {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+}
+
+.btn-add {
+  background: #ccff00;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.beneficiary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.beneficiary-card {
+  background: #161616;
+  border: 1px solid #222;
+  padding: 1rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+}
+
+.user-icon { font-size: 1.5rem; background: #222; padding: 10px; border-radius: 50%; }
+.info h4 { margin: 0; font-size: 1rem; }
+.info p { margin: 0; font-size: 0.8rem; color: #777; }
+
+.btn-delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  filter: grayscale(1);
+}
+.btn-delete:hover { filter: grayscale(0); }
+
+.feedback { margin-top: 10px; font-size: 0.9rem; }
+.success { color: #00ff88; }
+.error { color: #ff4444; }

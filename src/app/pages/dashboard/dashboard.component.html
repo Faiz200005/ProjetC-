@@ -1,71 +1,125 @@
-<div class="home">
-  <header class="topbar">
-    <div class="brand-mini">
-      <div class="logo">▲</div>
-      <div class="brand-text">
-        <h2>Fadjoud Bank</h2>
-        <span>Modern Digital Banking</span>
-      </div>
+<div class="dashboard-wrapper">
+  <!-- HEADER UNIQUE ET FUSIONNÉ -->
+  <header class="main-header">
+    <div class="logo-area">
+      <div class="logo-icon">FB</div>
+      <div class="logo-text">Fadjia <span>Bank</span></div>
     </div>
 
-    <nav class="nav">
-      <a class="link active" href="#">Home</a>
-      <a class="link" href="#">Services</a>
-      <a class="link" href="#">Cards</a>
-      <a class="link" href="#">About</a>
-    </nav>
+    <div class="header-right">
+      <!-- LA CLOCHE DE NOTIFICATIONS -->
+      <div class="notification-wrapper">
+        <button class="notif-btn" (click)="toggleNotifs()" title="Notifications">
+          🔔 <span *ngIf="unreadCount > 0" class="badge">{{ unreadCount }}</span>
+        </button>
 
-    <div class="actions">
-      <button class="btn-outline">Support</button>
-      <a class="user-btn" routerLink="/login">Login</a>
+        <!-- MENU DÉROULANT DES NOTIFS -->
+        <div class="notif-dropdown" *ngIf="showNotifs">
+          <div class="notif-header">Notifications</div>
+          <div class="notif-content">
+            <div *ngFor="let n of notifications" 
+                 class="notif-item" 
+                 [ngClass]="{'unread': !n.isRead}"
+                 (click)="markRead(n)">
+              <p class="notif-msg">{{ n.message }}</p>
+              <span class="notif-time">{{ n.createdAt | date:'dd MMM, HH:mm' }}</span>
+            </div>
+            <div *ngIf="notifications.length === 0" class="notif-empty">
+              Aucune notification
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-actions">
+        <span class="user-name">Mon Espace</span>
+        <button class="logout-pill" (click)="logout()">Déconnexion</button>
+      </div>
     </div>
   </header>
 
-  <main class="hero">
-    <section class="hero-left">
-      <p class="eyebrow">Smart banking for your future</p>
-      <h1>Manage your money with clarity and confidence.</h1>
-      <p class="subtitle">
-        Fadjoud Bank helps you access your accounts, manage your cards,
-        and experience a secure and modern banking interface.
-      </p>
+  <main class="content">
+    <!-- SECTION BIENVENUE -->
+    <section class="welcome-bar">
+      <h1>Tableau de bord</h1>
+      <p>Ravi de vous revoir sur votre espace sécurisé.</p>
+    </section>
 
-      <div class="hero-actions">
-        <a class="btn-fill" routerLink="/login">Get Started</a>
-        <button class="btn-secondary">Learn More</button>
+    <!-- SECTION COMPTES ET CARTES -->
+    <section class="accounts-section">
+      <div class="section-header">
+        <h3>Mes Comptes & Cartes</h3>
+      </div>
+      
+      <div class="cards-container">
+        <!-- Affichage de chargement si vide -->
+        <div *ngIf="isLoading" class="loading-text">Chargement de vos comptes...</div>
+        
+        <div class="bank-card neon-border" *ngFor="let acc of accounts">
+          <div class="card-chip"></div>
+          <div class="card-info">
+            <span class="label">Solde disponible</span>
+            <h2 class="amount">{{ (acc.balance || acc.Balance) | currency:'EUR':'symbol':'1.2-2' }}</h2>
+            <p class="iban">{{ acc.iban || acc.Iban }}</p>
+          </div>
+          <div class="card-footer">
+            <span>Visa Gold</span>
+            <span class="status-dot"> Actif</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="hero-right">
-      <div class="card card-main">
-        <div class="card-top">
-          <span>Premium Card</span>
-          <span>VISA</span>
+    <!-- SECTION HISTORIQUE DES TRANSACTIONS -->
+    <section class="history-section">
+      <div class="section-header">
+        <h3>Activités récentes</h3>
+        <button class="btn-see-all">Voir tout</button>
+      </div>
+
+      <div class="history-list">
+        <div *ngIf="transactions.length === 0" class="empty-history">
+          Aucune transaction pour le moment.
         </div>
 
-        <div class="card-number">**** **** **** 2847</div>
-
-        <div class="card-bottom">
-          <div>
-            <p>Holder</p>
-            <h4>Fadjoud Client</h4>
+        <div class="history-item" *ngFor="let t of transactions">
+          <!-- Icône dynamique selon si c'est un virement entrant ou sortant -->
+          <div class="item-icon" [ngClass]="{'incoming': t.toAccountId === (accounts[0]?.id || accounts[0]?.Id)}">
+            {{ t.toAccountId === (accounts[0]?.id || accounts[0]?.Id) ? '↙' : '↗' }}
           </div>
-          <div>
-            <p>Expires</p>
-            <h4>08/29</h4>
+          
+          <div class="item-details">
+            <p class="item-label">{{ t.label || 'Virement' }}</p>
+            <p class="item-date">{{ t.createdAt | date:'dd MMM, HH:mm' }}</p>
+          </div>
+
+          <div class="item-amount" [ngClass]="{'positive': t.toAccountId === (accounts[0]?.id || accounts[0]?.Id)}">
+            {{ t.toAccountId === (accounts[0]?.id || accounts[0]?.Id) ? '+' : '-' }} {{ t.amount | currency:'EUR' }}
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="mini-stats">
-        <div class="stat-box">
-          <p>Fast Access</p>
-          <h3>24/7</h3>
-        </div>
-        <div class="stat-box">
-          <p>Security</p>
-          <h3>100%</h3>
-        </div>
+    <!-- OPÉRATIONS RAPIDES -->
+    <section class="quick-actions">
+      <h3>Opérations rapides</h3>
+      <div class="action-grid">
+        <button class="action-item" routerLink="/transfer">
+          <div class="icon">⇄</div>
+          <span>Virement</span>
+        </button>
+        <button class="action-item">
+          <div class="icon">📋</div>
+          <span>Historique</span>
+        </button>
+        <button class="action-item">
+          <div class="icon">💳</div>
+          <span>Ma Carte</span>
+        </button>
+        <button class="action-item" routerLink="/beneficiaries">
+      <div class="icon">👤</div>
+      <span>Contacts</span>
+    </button>
       </div>
     </section>
   </main>
